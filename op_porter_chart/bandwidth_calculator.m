@@ -2,23 +2,29 @@ clc
 clear
 close all
 
-data = readmatrix('data/op_ln_ac.csv');
+% data input 
+data = readmatrix('data/op_wb_ac.csv');
 
-loglog(data(:,1),data(:,2))
+% calculate the f-3dB point
+f_h = ones(size(data,1),1) * sqrt(1/2) * data(1,2);
 
+% calculete the intersection
+P_x = my_interx(data(:,1),data(:,2),f_h(1));
+
+% [Y,idx] = unique(Y) ;
+% X = X(idx) ;
+% iwant = interp1(Y,X,sqrt(1/2) * data(1,2));
+
+% set figure
+hold on
 grid on
 xlim([1E0,1E9])
 ylim([1E0,1E9])
 
-f_h = ones(size(data,1),1) * sqrt(1/2) * data(1,2);
+% print image
+plot(data(:,1),data(:,2))
+plot(data(:,1),f_h)
+scatter(P_x, f_h(1));
 
-hold on
-
-loglog(data(:,1),f_h)
-
-index = (abs(data(:,2)-f_h) == min(abs(data(:,2)-f_h)));
-
-scatter(data(index,1),data(index,2));
-
-disp (['Gain = ', num2str(data(1,2))]);
-disp (['BandWidth = ',num2str(data(index,1)),' Hz']);
+% set log scale
+set(gca,'XScale','log','YScale','log')
