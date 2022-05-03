@@ -11,12 +11,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # define file path
-filepath = './nmos_50_50n/'
+filepath = './data/nmos_50_50n/'
 # select x and y
 # var(s):
-#   V_GS, Vstar, gm_id, fT, gm_id_fT, Istar
+#   V_GS, Vstar, gm_id, fT, gm_id_fT, Istar, gm_gds
 xdata_filename = 'Vstar'
-ydata_filename = 'Vstar'
+ydata_filename = 'fT'
 
 # import data
 with open(filepath + 'nmos_' + xdata_filename + '.csv') as f:
@@ -29,7 +29,7 @@ with open(filepath + 'nmos_' + ydata_filename + '.csv') as f:
     y = np.loadtxt(lines, delimiter=',', unpack = True, skiprows=1)
 
 # set axes format
-ax = plt.axes(xscale = 'linear', yscale = 'linear')
+ax = plt.axes(xscale = 'linear', yscale = 'linear', xlim = [0.19,0.21], ylim=[0,1E6])
 ax.grid(visible = True, which = 'major', axis = 'both', ls = '-')
 ax.grid(visible = True, which = 'minor', axis = 'both', ls = ':')
 
@@ -39,7 +39,7 @@ for i in np.arange(1, int(x.shape[0]), 2):
     plt.plot(x[i-1,:], y[i,:], label = legend_label)
     
 # axis label convert
-data2label = {'Vstar' : 'Vstar [V]','gm_id' : 'gm/id [1/V]','fT' : 'fT [GHz]','gm_id_fT' : 'gm/id * fT [GHz/V]','Istar' : 'Istar [A]'}
+data2label = {'Vstar' : 'Vstar [V]','gm_id' : 'gm/id [1/V]','fT' : 'fT [GHz]','gm_id_fT' : 'gm/id * fT [GHz/V]','Istar' : 'Istar [A]','gm_gds' : 'gm/gds [Magnitude]'}
 x_label = data2label[xdata_filename]
 y_label = data2label[ydata_filename]
     
@@ -50,4 +50,4 @@ plt.xlabel(x_label)
 plt.ylabel(y_label)
 
 # save figure as format 'svg'
-plt.savefig('untitiled.svg')
+plt.savefig('figure/fT.svg', dpi =300)

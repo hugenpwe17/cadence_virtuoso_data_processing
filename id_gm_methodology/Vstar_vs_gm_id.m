@@ -3,13 +3,13 @@ clear
 close all
 
 % define csv file's path
-path_name = 'nmos_50_100n/';
+path_name = 'data/nmos_50_50n/';
 
 % select x and y
 % var:k
-% Vstar, gm_id, fT, gm_id_fT, Istar
+% Vstar, gm_id, fT, gm_id_fT, Istar, gm_gds(ro)
 x_data_name = 'Vstar';
-y_data_name = 'Vstar';
+y_data_name = 'Istar';
 
 % import data
 x_data_filename = [path_name, 'nmos_', x_data_name, '.csv'];
@@ -26,8 +26,8 @@ grid on
 legend_label_string = cell(1, size(x_data,2)/2);
 factor = 1;
 for i = 1:size(x_data,2)/2
-    h(i) = plot(x_data(:,2*i - 1),y_data(:,2*i)/factor);
-    legend_label_string{i} = ['T = ', num2str(350 + 100*(i-1)), 'n'];
+    h(i) = plot(x_data(:,2*i),y_data(:,2*i)/factor);
+    legend_label_string{i} = ['T = ', num2str(350 + 50*(i-1)), 'n'];
 end
 
 % set legend
@@ -45,6 +45,8 @@ switch x_data_name
         x_label_name = 'gm/id*fT [Hz*V^-1]';
     case 'Istar'
         x_label_name = 'Istar [A/um]';
+    case 'gm_gds'
+        x_label_name = 'gm/gds [Magnitude]';
     otherwise
         x_label_name = x_data_name;
 end
@@ -60,6 +62,8 @@ switch y_data_name
         y_label_name = 'gm/id*fT [Hz*V^-1]';
     case 'Istar'
         y_label_name = 'Istar [A/um]';
+    case 'gm_gds'
+        y_label_name = 'gm/gds [Magnitude]';
    otherwise
         y_label_name = y_data_name;
 end
