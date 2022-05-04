@@ -44,36 +44,38 @@ classdef gmoverid < handle
             % V_gs & gm/id
             Temp = readmatrix([obj.path, '/', obj.mostype, '_', 'gm_id.csv']);
             [obj.V_gs.data, obj.gm_id.data] = var_split(Temp);
-            obj.V_gs.name = 'V_gs';
-            obj.gm_id.name = 'gm_id';
-
+            
             % gm/gds(ro)
             Temp = readmatrix([obj.path, '/', obj.mostype, '_', 'gm_gds.csv']);
             [~, obj.gm_gds.data] = var_split(Temp);
-            obj.gm_gds.name = 'gm_gds';
-
+            
             % fT
             Temp = readmatrix([obj.path, '/', obj.mostype, '_', 'fT.csv']);
             [~, obj.fT.data] = var_split(Temp);
-            obj.fT.name = 'fT';
 
             % fT*gm/id
             Temp = readmatrix([obj.path, '/', obj.mostype, '_', 'fT_gm_id.csv']);
             [~, obj.fT_gm_id.data] = var_split(Temp);
-            obj.fT_gm_id.name = 'fT_gm_id';
 
             % id/w
             Temp = readmatrix([obj.path, '/', obj.mostype, '_', 'id_w.csv']);
             [~, obj.id_w.data] = var_split(Temp);
-            obj.id_w.name = 'id_w';
-
+            
+            % name inherit
+            obj.V_gs.name   = 'V_gs';
+            obj.gm_id.name  = 'gm_id';
+            obj.gm_gds.name = 'gm_gds';
+            obj.fT.name     = 'fT';
+            obj.fT_gm_id.name = 'fT_gm_id';
+            obj.id_w.name   = 'id_w';
+           
             % type inherit
-            obj.V_gs.type = obj.mostype;
-            obj.gm_id.type = obj.mostype;
+            obj.V_gs.type   = obj.mostype;
+            obj.gm_id.type  = obj.mostype;
             obj.gm_gds.type = obj.mostype;
-            obj.fT.type = obj.mostype;
+            obj.fT.type     = obj.mostype;
             obj.fT_gm_id.type = obj.mostype;
-            obj.id_w.type = obj.mostype;
+            obj.id_w.type   = obj.mostype;
 
         end
 
