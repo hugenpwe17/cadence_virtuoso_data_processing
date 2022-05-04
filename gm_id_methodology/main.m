@@ -18,7 +18,7 @@ point = gobjects(1,size(line,2));
 for i = 1:size(line,2)
     P_x = 10;
     P_y = interp1(line(i).XData,line(i).YData,P_x, "spline");
-    point(i) = scatter(P_x,P_y);
+    point(i) = scatter(P_x,P_y,10);
 end
 
 %% print table
