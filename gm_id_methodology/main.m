@@ -10,7 +10,7 @@ data_path = 'data/';
 
 %% print
 % V_gs, gm_id, gm_gds, fT, fT_gm_id, id_w
-line = painter(nmos.gm_id, nmos.id_w);
+line = painter(nmos.gm_id, nmos.fT_gm_id);
 set(gca,'YScale','log')
 
 %% point's x coords you want to see its y value

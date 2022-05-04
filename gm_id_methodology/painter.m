@@ -10,8 +10,9 @@ for i = 1:size(x_var.data,2)
 end
 
 % set legend
-leg = legend(h,legend_label_string);
+leg = legend(h,legend_label_string,'Location','best');
 set(leg,'AutoUpdate','off')
+box(leg,'on')
 grid on
 
 % add x,y label and title
