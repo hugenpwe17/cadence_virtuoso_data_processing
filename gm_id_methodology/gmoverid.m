@@ -181,7 +181,7 @@ classdef gmoverid < handle
 
         function save(obj, name)
 
-            exportgraphics(obj.figure_hand, name, 'Resolution', 300);
+            exportgraphics(obj.figure_hand, ['figure/',name], 'Resolution', 300);
 
         end
 
