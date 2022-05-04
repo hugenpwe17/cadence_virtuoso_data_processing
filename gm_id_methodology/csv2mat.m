@@ -39,7 +39,7 @@ Temp = readmatrix([path,  mos_type, '_', 'fT.csv']);
 [~,data.fT.data] = var_split(Temp);
 
 % fT*gm/id
-Temp = readmatrix([path,  mos_type, '_', 'gm_id.csv']);
+Temp = readmatrix([path,  mos_type, '_', 'fT_gm_id.csv']);
 
 [~,data.fT_gm_id.data] = var_split(Temp);
 
