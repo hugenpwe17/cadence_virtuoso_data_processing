@@ -3,7 +3,7 @@ classdef gmoverid < handle
 
     % data info
     properties (SetAccess=private)
-        path = 'data'
+        path
         name
         mostype
         
@@ -21,19 +21,24 @@ classdef gmoverid < handle
 
     % image variable
     properties (SetAccess=public)
-        line
-        point
-        legends
-        leg_hand
         figure_hand
         axes_hand
+        line_hand
+        point_hand
+        title_bak
+        legends
+        leg_hand
+        x_value
+        y_value
     end
 
     % methods define
     methods
         
-        function obj = gmoverid(mostype)
+        function obj = gmoverid(mostype, path)
             % class initialization
+
+            obj.path = path;
             obj.mostype = mostype;
             obj.name = upper(obj.mostype);
         end  
@@ -93,31 +98,49 @@ classdef gmoverid < handle
 
             obj.axes_hand = axes(obj.figure_hand);
 
-            [obj.line, obj.legends] = painter(x_var,y_var);
+            [obj.line_hand, obj.legends] = painter(x_var,y_var);
 
             x_label_name = data2label(x_var.name);
             y_label_name = data2label(y_var.name);
 
-            xlabel(x_label_name)
-            ylabel(y_label_name)
-            title([x_label_name, ' .vs ',  y_label_name, ' (', obj.name, ')'])
+            xlabel(x_label_name, 'FontSize', 12, 'FontName', 'YaHei Consolas Hybrid')
+            ylabel(y_label_name, 'FontSize', 12, 'FontName', 'YaHei Consolas Hybrid')
+            title([x_label_name, ' .vs ',  y_label_name, ' (', obj.name, ')'],...
+                    'FontSize', 10, 'FontName', 'YaHei Consolas Hybrid')
+            % title backup
+            obj.title_bak = obj.axes_hand.Title.String;
 
+            hold(obj.axes_hand,'off');
+            axis(obj.axes_hand,'square');
+            axis(obj.axes_hand,'padded');
+
+        end
+
+        function title(obj)
+            
+            if(strcmp(obj.axes_hand.Title.String,''))
+                title(obj.title_bak,...
+                    'FontSize', 10, 'FontName', 'YaHei Consolas Hybrid')
+            else
+                obj.axes_hand.Title.String = '';
+            end
         end
 
         function legend(obj, location)
             if(~exist('location','var'))
                 location = 'best';
             end
-            obj.leg_hand = legend(obj.line,obj.legends,'Location',location);
+            obj.leg_hand = legend(obj.line_hand,obj.legends,'Location',location,...
+                        'FontSize',10,'FontName','YaHei Consolas Hybrid');
             set(obj.leg_hand,'AutoUpdate','off')
-            box(obj.leg_hand,'on')
+            box(obj.leg_hand,'off')
         end
 
         function grid(obj)
             if(obj.axes_hand.XGrid || obj.axes_hand.YGrid || obj.axes_hand.ZGrid)
-                grid off
+                grid(obj.axes_hand,'off');
             else 
-                grid on
+                grid(obj.axes_hand,'on');
             end
         end
 
@@ -137,6 +160,31 @@ classdef gmoverid < handle
             end
         end
 
+        function xfindy(obj, x_corrds)
+            delete(obj.point_hand)
+            % calculate y value in given x corrd by interp1
+            obj.point_hand = gobjects(1,size(obj.line_hand,2));
+            for i = 1:size(obj.line_hand,2)
+                obj.y_value = interp1(obj.line_hand(i).XData, obj.line_hand(i).YData, x_corrds, "spline");
+                obj.point_hand(i) = scatter(x_corrds, obj.y_value,10);
+            end
+            % prnit y value table in each L 
+            LDN = cell(size(obj.line_hand,2),1);
+            PYD = zeros(size(obj.line_hand,2),1);
+            for i = 1:size(obj.line_hand,2)
+                LDN{i} = obj.line_hand(i).DisplayName;
+                PYD(i,1) = obj.point_hand(i).YData;
+            end
+            T = table(LDN,PYD);
+            disp(T);
+        end
+
+        function save(obj, name)
+
+            exportgraphics(obj.figure_hand, name, 'Resolution', 300);
+
+        end
+
     end
 
     methods (Static)
@@ -147,11 +195,11 @@ end
 
 function [h, legend_label_string]  = painter(x_var, y_var)
     % print data
-    
+    c=colormap(gray(20));
     h = gobjects(1,14);
     legend_label_string = cell(1, size(x_var,2));
     for i = 1:size(x_var.data,2)
-        h(i) = plot(x_var.data(:,i),y_var.data(:,i));
+        h(i) = plot(x_var.data(:,i),y_var.data(:,i),'color',c(i,:),'LineWidth',1.5);
         hold on
         legend_label_string{i} = ['L = ', num2str(1.05 + 1*(i-1)), 'u'];
     end
