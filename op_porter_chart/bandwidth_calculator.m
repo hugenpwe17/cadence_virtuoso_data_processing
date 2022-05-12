@@ -3,7 +3,7 @@ clear
 close all
 
 % data input 
-data = readmatrix('data/op_wb_ac.csv');
+data = readmatrix('data/op_ln_ac.csv');
 
 % calculate the f-3dB point
 f_h = ones(size(data,1),1) * sqrt(1/2) * data(1,2);
