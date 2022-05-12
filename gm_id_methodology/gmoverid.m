@@ -161,12 +161,13 @@ classdef gmoverid < handle
         end
 
         function xfindy(obj, x_corrds)
-            delete(obj.point_hand)
+            hold on
+%             delete(obj.point_hand)
             % calculate y value in given x corrd by interp1
             obj.point_hand = gobjects(1,size(obj.line_hand,2));
             for i = 1:size(obj.line_hand,2)
-                obj.y_value = interp1(obj.line_hand(i).XData, obj.line_hand(i).YData, x_corrds, "spline");
-                obj.point_hand(i) = scatter(x_corrds, obj.y_value,10);
+                temp = interp1(obj.line_hand(i).XData, obj.line_hand(i).YData, x_corrds, "linear");
+                obj.point_hand(i) = scatter(x_corrds, temp, 10);
             end
             % prnit y value table in each L 
             LDN = cell(size(obj.line_hand,2),1);
@@ -195,7 +196,8 @@ end
 
 function [h, legend_label_string]  = painter(x_var, y_var)
     % print data
-    c=colormap(gray(20));
+%     c=colormap(gray(20));
+    c=colormap(hsv(20));
     h = gobjects(1,14);
     legend_label_string = cell(1, size(x_var,2));
     for i = 1:size(x_var.data,2)

@@ -1,0 +1,4 @@
+#ifndef RTW_HEADER_phase_magrin_acc_types_h_
+#define RTW_HEADER_phase_magrin_acc_types_h_
+typedef struct P_phase_magrin_T_ P_phase_magrin_T ;
+#endif
