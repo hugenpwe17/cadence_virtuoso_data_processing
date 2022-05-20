@@ -111,7 +111,7 @@ classdef gmoverid < handle
             obj.title_bak = obj.axes_hand.Title.String;
 
             hold(obj.axes_hand,'off');
-            axis(obj.axes_hand,'square');
+%             axis(obj.axes_hand,'square');
             axis(obj.axes_hand,'padded');
 
         end
@@ -133,7 +133,7 @@ classdef gmoverid < handle
             obj.leg_hand = legend(obj.line_hand,obj.legends,'Location',location,...
                         'FontSize',10,'FontName','YaHei Consolas Hybrid');
             set(obj.leg_hand,'AutoUpdate','off')
-            box(obj.leg_hand,'off')
+            box(obj.leg_hand,'on')
         end
 
         function grid(obj)
@@ -196,7 +196,7 @@ end
 
 function [h, legend_label_string]  = painter(x_var, y_var)
     % print data
-%     c=colormap(gray(20));
+%     c=colormap(hot(20));
     c=colormap(hsv(20));
     h = gobjects(1,14);
     legend_label_string = cell(1, size(x_var,2));
